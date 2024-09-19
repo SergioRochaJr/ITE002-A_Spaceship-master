@@ -8,7 +8,37 @@ public class Spaceship : MonoBehaviour
     private Bounds _cameraBounds;
     private SpriteRenderer _spriteRenderer;
 
-    void Start() {
+    private IMovementController _movementController;
+    private IGunController _gunController;
+
+    public void SetMovementController(IMovementController movementController) {
+        _movementController = movementController;
+    }
+
+    public void SetGunController(IGunController gunController)
+    {
+        _gunController = gunController;
+    }
+
+    public void MoveHorizontally(float x) {
+        _movementController.MoveHorizontally(x * GetSpeed());
+    }
+    public void MoveVertically(float y) {
+        _movementController.MoveVertically(y * GetSpeed());
+    }
+
+    public void ApplyFire() {
+        // Recarregar
+        _gunController.Fire();
+    }
+
+    public float GetSpeed() {
+        // controlar velocidade com base no estado da nave
+        return speed;
+    }
+
+
+void Start() {
         var height = Camera.main.orthographicSize * 2f;
         var width = height * Camera.main.aspect;
         var size = new Vector3(width, height);
